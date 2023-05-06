@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int n, m ,u, k;
+bool chuaxet[1005];
+vector<int> List[1005];
+
+bool DFS(int u, int k){
+	chuaxet[u] = false;
+	for(auto v : List[u]){
+		if(chuaxet[v]){
+			if(DFS(v, u)) return true;
+		} else if(v != k) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool check(){
+	for(int i = 1; i <= n; i++){
+		if(chuaxet[i]){
+			if(DFS(i, 0)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
+int main(){
+	int t;
+	cin >> t;
+	while(t--){
+		memset(chuaxet, true, sizeof(chuaxet));
+		for(int i = 0;i < 1005; i++) List[i].clear();
+		cin >> n >> m;
+		int x, y;
+		for(int i = 1; i <= m; i++){
+			cin >> x >> y;
+			List[x].push_back(y);
+			List[y].push_back(x);
+		}
+		if(check()){
+			cout << "YES" << endl;
+		} else {
+			cout << "NO" << endl;
+		}
+	}
+}
